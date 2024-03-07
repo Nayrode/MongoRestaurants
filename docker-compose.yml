@@ -1,0 +1,165 @@
+version: '3'
+
+networks:
+  mongodb-net:
+    driver: bridge
+
+
+services:
+
+  DC1S1Config1:
+    container_name: DC1S1Config1
+    image: mongo
+    command: mongod --configsvr --replSet cfgrs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 10001:27017
+    volumes:
+      - configs1:/data/db
+    networks:
+      - mongodb-net
+
+  DC2S1Config2:
+    container_name: DC2S1Config2
+    image: mongo
+    command: mongod --configsvr --replSet cfgrs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 10002:27017
+    volumes:
+      - configs2:/data/db
+    networks:
+      - mongodb-net
+
+  DC3S1Config3:
+    container_name: DC3S1Config3
+    image: mongo
+    command: mongod --configsvr --replSet cfgrs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 10003:27017
+    volumes:
+      - configs3:/data/db
+    networks:
+      - mongodb-net
+
+  DC1S3Shard1:
+    container_name: DC1S3Shard1
+    image: mongo
+    command: mongod --shardsvr --replSet shard1rs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 50001:27017
+    volumes:
+      - DC1S3Shard1:/data/db
+    networks:
+      - mongodb-net
+
+  DC2S3Shard1:
+    container_name: DC2S3Shard1
+    image: mongo
+    command: mongod --shardsvr --replSet shard1rs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 50002:27017
+    volumes:
+      - DC2S3Shard1:/data/db
+    networks:
+      - mongodb-net
+
+  DC3S3Shard1:
+    container_name: DC3S3Shard1
+    image: mongo
+    command: mongod --shardsvr --replSet shard1rs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 50003:27017
+    volumes:
+      - DC3S3Shard1:/data/db
+    networks:
+      - mongodb-net
+
+  DC1S4Shard2:
+    container_name: DC1S4Shard2
+    image: mongo
+    command: mongod --shardsvr --replSet shard2rs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 50021:27017
+    volumes:
+      - DC1S4Shard2:/data/db
+    networks:
+      - mongodb-net
+
+  DC2S4Shard2:
+    container_name: DC2S4Shard2
+    image: mongo
+    command: mongod --shardsvr --replSet shard2rs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 50022:27017
+    volumes:
+      - DC2S4Shard2:/data/db
+    networks:
+      - mongodb-net
+
+  DC3S4Shard2:
+    container_name: DC3S4Shard2
+    image: mongo
+    command: mongod --shardsvr --replSet shard2rs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 50023:27017
+    volumes:
+      - DC3S4Shard2:/data/db
+    networks:
+      - mongodb-net
+
+  DC1S5Shard3:
+    container_name: DC1S5Shard3
+    image: mongo
+    command: mongod --shardsvr --replSet shard3rs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 50031:27017
+    volumes:
+      - DC1S5Shard3:/data/db
+    networks:
+      - mongodb-net
+
+  DC2S5Shard3:
+    container_name: DC2S5Shard3
+    image: mongo
+    command: mongod --shardsvr --replSet shard3rs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 50032:27017
+    volumes:
+      - DC2S5Shard3:/data/db
+    networks:
+      - mongodb-net
+
+  DC3S5Shard3:
+    container_name: DC3S5Shard3
+    image: mongo
+    command: mongod --shardsvr --replSet shard3rs --port 27017 --dbpath /data/db --bind_ip_all
+    ports:
+      - 50033:27017
+    volumes:
+      - DC3S5Shard3:/data/db
+    networks:
+      - mongodb-net
+
+
+  DC1S2Mongos1:
+    container_name: DC1S2Mongos1
+    image: mongo
+    command: mongos --configdb cfgrs/DC1S1Config1:27017,DC2S1Config2:27017,DC3S1Config3:27017 --port 27017 --bind_ip_all
+    ports:
+      - 30000:27017
+    networks:
+      - mongodb-net
+
+
+volumes:
+  configs1: {}
+  configs2: {}
+  configs3: {}
+  DC1S3Shard1: {}
+  DC2S3Shard1: {}
+  DC3S3Shard1: {}
+  DC1S4Shard2: {}
+  DC2S4Shard2: {}
+  DC3S4Shard2: {}
+  DC1S5Shard3: {}
+  DC2S5Shard3: {}
+  DC3S5Shard3: {}
