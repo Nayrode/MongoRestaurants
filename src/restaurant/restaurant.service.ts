@@ -10,4 +10,16 @@ export class RestaurantService {
   async findAll(): Promise<Restaurant[]> {
     return this.restaurantModel.find().exec();
   }
+
+  async premiereRequete(): Promise<Restaurant[]> {
+    return this.restaurantModel.find({ amenity: 'pub' }).exec();
+  }
+
+  async deuxiemeRequete(): Promise<Restaurant[]> {
+    return this.restaurantModel.find({ amenity: 'restaurant' }).exec();
+  }
+
+  async troisiemeRequete(): Promise<Restaurant[]> {
+    return this.restaurantModel.find({ amenity: 'fast_food' }).exec();
+  }
 }
