@@ -3,7 +3,9 @@
 
 echo "===============COMPOSE UP=================="
 
-sudo docker compose up -d --remove-orphans
+sudo docker compose down -v --remove-orphans
+
+sudo docker compose up -d
 
 echo "==========================================="
 

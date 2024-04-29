@@ -47,7 +47,7 @@ services:
     ports:
       - 50001:27017
     volumes:
-      - DC1S3Shard1:/data/db
+      - DC1S3Shard1:/data/db  
     networks:
       - mongodb-net
 
