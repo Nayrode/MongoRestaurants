@@ -44,7 +44,98 @@ export class RestaurantService {
     return this.icecreamModel.find().exec();
   }
 
-  async horaireOuverture(): Promise<Restaurant[]> {
-    return this.restaurantModel.find({ opening_hours: { $exists: true } }).exec();
+  async horaireOuverture(): Promise<{ name: string; horaire: string; }[]> {
+    let horaireRestaurant = await this.restaurantModel.aggregate([
+      {
+        $match: {
+          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+        }
+      },
+      {
+        $project: {
+          _id: 0, // Exclut l'id
+          name: 1, // Inclut le nom
+          opening_hours: 1 // Inclut les horaires d'ouverture
+        }
+      }
+    ]).exec();
+
+    const barHoraire = await this.barModel.aggregate([
+      {
+        $match: {
+          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+        }
+      },
+      {
+        $project: {
+          _id: 0, // Exclut l'id
+          name: 1, // Inclut le nom
+          opening_hours: 1 // Inclut les horaires d'ouverture
+        }
+      }
+    ]).exec();
+
+    const icecreamHoraire = await this.icecreamModel.aggregate([
+      {
+        $match: {
+          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+        }
+      },
+      {
+        $project: {
+          _id: 0, // Exclut l'id
+          name: 1, // Inclut le nom
+          opening_hours: 1 // Inclut les horaires d'ouverture
+        }
+      }
+    ]).exec();
+
+    const cafeHoraire = await this.cafeModel.aggregate([
+      {
+        $match: {
+          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+        }
+      },
+      {
+        $project: {
+          _id: 0, // Exclut l'id
+          name: 1, // Inclut le nom
+          opening_hours: 1 // Inclut les horaires d'ouverture
+        }
+      }
+    ]).exec();
+
+    const fastfoodHoraire = await this.fastfoodModel.aggregate([
+      {
+        $match: {
+          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+        }
+      },
+      {
+        $project: {
+          _id: 0, // Exclut l'id
+          name: 1, // Inclut le nom
+          opening_hours: 1 // Inclut les horaires d'ouverture
+        }
+      }
+    ]).exec();
+
+    const pubHoraire = await this.pubModel.aggregate([
+      {
+        $match: {
+          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+        }
+      },
+      {
+        $project: {
+          _id: 0, // Exclut l'id
+          name: 1, // Inclut le nom
+          opening_hours: 1 // Inclut les horaires d'ouverture
+        }
+      }
+    ]).exec();
+
+    horaireRestaurant = horaireRestaurant.concat(barHoraire, icecreamHoraire, cafeHoraire, fastfoodHoraire, pubHoraire);
+    return horaireRestaurant;
   }
 }
