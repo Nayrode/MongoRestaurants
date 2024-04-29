@@ -8,8 +8,8 @@ export class RestaurantService {
   constructor(@InjectModel(Restaurant.name) private readonly restaurantModel: Model<Restaurant>) {}
 
   async findAll(): Promise<Restaurant[]> {
-    console.log(await this.restaurantModel.find({}));
-    return await this.restaurantModel.find();
+    console.log(await this.restaurantModel.find().exec());
+    return await this.restaurantModel.find().exec();
   }
 
   async pub(): Promise<Restaurant[]> {

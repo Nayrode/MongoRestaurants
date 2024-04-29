@@ -43,4 +43,4 @@ export class Restaurant {
 
 }
 
-export const RestaurantSchema = SchemaFactory.createForClass(Restaurant);
+export const RestaurantModel = SchemaFactory.createForClass(Restaurant);
