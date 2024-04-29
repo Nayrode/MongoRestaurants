@@ -4,9 +4,6 @@ import { Document } from 'mongoose';
 @Schema()
 export class Icecream extends Document {
   @Prop()
-  _id: string;
-
-  @Prop()
   amenity: string;
 
   @Prop()

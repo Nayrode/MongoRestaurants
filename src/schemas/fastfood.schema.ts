@@ -4,9 +4,6 @@ import { Document } from 'mongoose';
 @Schema()
 export class Fastfood extends Document {
   @Prop()
-  _id: string;
-
-  @Prop()
   amenity: string;
 
   @Prop()
