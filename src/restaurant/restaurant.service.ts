@@ -20,42 +20,42 @@ export class RestaurantService {
   ) {}
 
   async bar(): Promise<Bar[]> {
-    return await this.barModel.find().exec();
+    return await this.barModel.find().select('amenity name addr_street').exec();
   }
 
   async restaurant(): Promise<Restaurant[]> {
-    return await this.restaurantModel.find().exec();
+    return await this.restaurantModel.find().select('amenity name addr_street').exec();
   }
 
   async pub(): Promise<Pub[]> {
-    return this.pubModel.find().exec();
+    return this.pubModel.find().select('amenity name addr_street').exec();
   }
 
 
   async fastfood(): Promise<Fastfood[]> {
-    return this.fastfoodModel.find().exec();
+    return this.fastfoodModel.find().select('amenity name addr_street').exec();
   }
 
   async cafe(): Promise<Cafe[]> {
-    return this.cafeModel.find().exec();
+    return this.cafeModel.find().select('amenity name addr_street').exec();
   }
 
   async icecream(): Promise<Icecream[]> {
-    return this.icecreamModel.find().exec();
+    return this.icecreamModel.find().select('amenity name addr_street').exec();
   }
 
   async horaireOuverture(): Promise<{ name: string; horaire: string; }[]> {
     let horaireRestaurant = await this.restaurantModel.aggregate([
       {
         $match: {
-          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+          opening_hours: { $exists: true, $ne: null }
         }
       },
       {
         $project: {
-          _id: 0, // Exclut l'id
-          name: 1, // Inclut le nom
-          opening_hours: 1 // Inclut les horaires d'ouverture
+          _id: 0,
+          name: 1, 
+          opening_hours: 1 
         }
       }
     ]).exec();
@@ -63,14 +63,14 @@ export class RestaurantService {
     const barHoraire = await this.barModel.aggregate([
       {
         $match: {
-          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+          opening_hours: { $exists: true, $ne: null } 
         }
       },
       {
         $project: {
-          _id: 0, // Exclut l'id
-          name: 1, // Inclut le nom
-          opening_hours: 1 // Inclut les horaires d'ouverture
+          _id: 0,
+          name: 1, 
+          opening_hours: 1 
         }
       }
     ]).exec();
@@ -78,14 +78,14 @@ export class RestaurantService {
     const icecreamHoraire = await this.icecreamModel.aggregate([
       {
         $match: {
-          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+          opening_hours: { $exists: true, $ne: null } 
         }
       },
       {
         $project: {
-          _id: 0, // Exclut l'id
-          name: 1, // Inclut le nom
-          opening_hours: 1 // Inclut les horaires d'ouverture
+          _id: 0, 
+          name: 1, 
+          opening_hours: 1
         }
       }
     ]).exec();
@@ -93,14 +93,14 @@ export class RestaurantService {
     const cafeHoraire = await this.cafeModel.aggregate([
       {
         $match: {
-          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+          opening_hours: { $exists: true, $ne: null }
         }
       },
       {
         $project: {
-          _id: 0, // Exclut l'id
-          name: 1, // Inclut le nom
-          opening_hours: 1 // Inclut les horaires d'ouverture
+          _id: 0, 
+          name: 1, 
+          opening_hours: 1 
         }
       }
     ]).exec();
@@ -108,14 +108,14 @@ export class RestaurantService {
     const fastfoodHoraire = await this.fastfoodModel.aggregate([
       {
         $match: {
-          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+          opening_hours: { $exists: true, $ne: null }
         }
       },
       {
         $project: {
-          _id: 0, // Exclut l'id
-          name: 1, // Inclut le nom
-          opening_hours: 1 // Inclut les horaires d'ouverture
+          _id: 0, 
+          name: 1, 
+          opening_hours: 1 
         }
       }
     ]).exec();
@@ -123,14 +123,14 @@ export class RestaurantService {
     const pubHoraire = await this.pubModel.aggregate([
       {
         $match: {
-          opening_hours: { $exists: true, $ne: null } // Filtre pour les restaurants ayant des horaires d'ouverture
+          opening_hours: { $exists: true, $ne: null }
         }
       },
       {
         $project: {
-          _id: 0, // Exclut l'id
-          name: 1, // Inclut le nom
-          opening_hours: 1 // Inclut les horaires d'ouverture
+          _id: 0, 
+          name: 1, 
+          opening_hours: 1 
         }
       }
     ]).exec();
