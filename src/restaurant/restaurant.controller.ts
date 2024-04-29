@@ -1,6 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
 import { RestaurantService } from './restaurant.service';
 import { Restaurant } from '../schemas/restaurant.schema';
+import { Fastfood } from 'src/schemas/fastfood.schema';
+import { Pub } from 'src/schemas/pub.schema';
+import { Bar } from 'src/schemas/bar.schema';
+import { Cafe } from 'src/schemas/cafe.schema';
+import { Icecream } from 'src/schemas/icecream.schema';
 
 @Controller('restaurant')
 export class RestaurantController {
@@ -8,11 +13,11 @@ export class RestaurantController {
 
   @Get()
   async findAll(): Promise<Restaurant[]> {
-    return this.RestaurantService.findAll();
+    return this.RestaurantService.restaurant();
   }
 
   @Get('pub')
-  pub(): Promise<Restaurant[]> {
+  pub(): Promise<Pub[]> {
     return this.RestaurantService.pub();
   }
 
@@ -22,8 +27,23 @@ export class RestaurantController {
   }
 
   @Get('fastfood')
-  fastfood(): Promise<Restaurant[]> {
+  fastfood(): Promise<Fastfood[]> {
     return this.RestaurantService.fastfood();
+  }
+
+  @Get('cafe')
+  cafe(): Promise<Cafe[]> {
+    return this.RestaurantService.cafe();
+  }
+
+  @Get('icecream')
+  icecream(): Promise<Icecream[]> {
+    return this.RestaurantService.icecream();
+  }
+
+  @Get('bar')
+  bar(): Promise<Bar[]> {
+    return this.RestaurantService.bar();
   }
 
   @Get('horaire')
