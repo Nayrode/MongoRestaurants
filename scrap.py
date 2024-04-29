@@ -46,3 +46,5 @@ db = client["restaurants"]
 for key in liste_restaurants.keys():
     collection = db[key]
     collection.insert_many(liste_restaurants[key])
+    collection.create_index('name')
+    collection.create_index('opening_hours')
