@@ -24,7 +24,7 @@ export class Bar extends Document {
   @Prop()
   osm_timestamp: string;
 
-  @Prop()
+  @Prop({type: Object})
   tags: object;
 
   @Prop()
@@ -38,4 +38,4 @@ export class Bar extends Document {
 
 }
 
-export const BarSchema = SchemaFactory.createForClass(Bar);
+export const BarModel = SchemaFactory.createForClass(Bar);

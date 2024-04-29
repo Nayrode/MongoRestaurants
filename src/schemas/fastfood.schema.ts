@@ -2,18 +2,15 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema()
-export class Cafe extends Document {
+export class Fastfood extends Document {
   @Prop()
   _id: string;
 
   @Prop()
-  addr_housenumber: number;
-
-  @Prop()
-  addr_street: string;
-
-  @Prop()
   amenity: string;
+
+  @Prop()
+  cuisine: string;
 
   @Prop()
   name: string;
@@ -31,11 +28,20 @@ export class Cafe extends Document {
   wheelchair: string;
 
   @Prop()
-  internet_access: string;
+  addr_street: string;
+
+  @Prop()
+  brand: string; 
 
   @Prop()
   opening_hours: string;
 
+  @Prop()
+  addr_housenumber: number;
+
+  @Prop()
+  drive_through: string;
+
 }
 
-export const CafeModel = SchemaFactory.createForClass(Cafe);
+export const FastfoodModel = SchemaFactory.createForClass(Fastfood);

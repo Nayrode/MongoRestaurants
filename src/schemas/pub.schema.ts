@@ -24,8 +24,9 @@ export class Pub extends Document {
   @Prop()
   osm_timestamp: string;
 
-  @Prop()
+  @Prop({type: Object})
   tags: object;
+
 
   @Prop()
   wheelchair: string;
@@ -41,4 +42,4 @@ export class Pub extends Document {
 
 }
 
-export const PubSchema = SchemaFactory.createForClass(Pub);
+export const PubModel = SchemaFactory.createForClass(Pub);
