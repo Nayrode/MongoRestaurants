@@ -5,10 +5,11 @@ import { Restaurant } from '../schemas/restaurant.schema';
 
 @Injectable()
 export class RestaurantService {
-  constructor(@InjectModel('Restaurant') private readonly restaurantModel: Model<Restaurant>) {}
+  constructor(@InjectModel(Restaurant.name) private readonly restaurantModel: Model<Restaurant>) {}
 
   async findAll(): Promise<Restaurant[]> {
-    return this.restaurantModel.find().exec();
+    console.log(await this.restaurantModel.find({}));
+    return await this.restaurantModel.find();
   }
 
   async pub(): Promise<Restaurant[]> {

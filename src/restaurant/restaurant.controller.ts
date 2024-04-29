@@ -8,6 +8,7 @@ export class RestaurantController {
 
   @Get()
   async findAll(): Promise<Restaurant[]> {
+    console.log('findAll');
     return this.RestaurantService.findAll();
   }
 
