@@ -11,19 +11,24 @@ export class RestaurantController {
     return this.RestaurantService.findAll();
   }
 
-  @Get('premiereRequete')
-  premiereRequete(): Promise<Restaurant[]> {
-    return this.RestaurantService.premiereRequete();
+  @Get('pub')
+  pub(): Promise<Restaurant[]> {
+    return this.RestaurantService.pub();
   }
 
-  @Get('deuxiemeRequete')
-  deuxiemeRequete(): Promise<Restaurant[]> {
-    return this.RestaurantService.deuxiemeRequete();
+  @Get('restaurant')
+  restaurant(): Promise<Restaurant[]> {
+    return this.RestaurantService.restaurant();
   }
 
-  @Get('troisiemeRequete')
-  troisiemeRequete(): Promise<Restaurant[]> {
-    return this.RestaurantService.troisiemeRequete();
+  @Get('fastfood')
+  fastfood(): Promise<Restaurant[]> {
+    return this.RestaurantService.fastfood();
   }
-  
+
+  @Get('horaire')
+  horaireOuverture(): Promise<Restaurant[]> {
+    return this.RestaurantService.horaireOuverture();
+  }
+
 }

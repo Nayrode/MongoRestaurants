@@ -11,15 +11,19 @@ export class RestaurantService {
     return this.restaurantModel.find().exec();
   }
 
-  async premiereRequete(): Promise<Restaurant[]> {
+  async pub(): Promise<Restaurant[]> {
     return this.restaurantModel.find({ amenity: 'pub' }).exec();
   }
 
-  async deuxiemeRequete(): Promise<Restaurant[]> {
+  async restaurant(): Promise<Restaurant[]> {
     return this.restaurantModel.find({ amenity: 'restaurant' }).exec();
   }
 
-  async troisiemeRequete(): Promise<Restaurant[]> {
+  async fastfood(): Promise<Restaurant[]> {
     return this.restaurantModel.find({ amenity: 'fast_food' }).exec();
+  }
+
+  async horaireOuverture(): Promise<Restaurant[]> {
+    return this.restaurantModel.find({ opening_hours: { $exists: true } }).exec();
   }
 }
