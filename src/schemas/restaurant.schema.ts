@@ -2,8 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema()
 export class Restaurant {
-  @Prop()
-  _id: string;
 
   @Prop()
   amenity: string;  

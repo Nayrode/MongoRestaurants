@@ -11,12 +11,12 @@ import { Pub } from '../schemas/pub.schema';
 @Injectable()
 export class RestaurantService {
   constructor(
-    @InjectModel(Restaurant.name) private readonly restaurantModel: Model<Restaurant>,
-    @InjectModel(Bar.name) private readonly barModel: Model<Bar>,
-    @InjectModel(Icecream.name) private readonly icecreamModel: Model<Icecream>,
-    @InjectModel(Cafe.name) private readonly cafeModel: Model<Cafe>,
-    @InjectModel(Fastfood.name) private readonly fastfoodModel: Model<Fastfood>,
-    @InjectModel(Pub.name) private readonly pubModel: Model<Pub>,
+    @InjectModel(Restaurant.name) private restaurantModel: Model<Restaurant>,
+    @InjectModel(Bar.name) private barModel: Model<Bar>,
+    @InjectModel(Icecream.name) private icecreamModel: Model<Icecream>,
+    @InjectModel(Cafe.name) private cafeModel: Model<Cafe>,
+    @InjectModel(Fastfood.name) private fastfoodModel: Model<Fastfood>,
+    @InjectModel(Pub.name) private pubModel: Model<Pub>,
   ) {}
 
   async bar(): Promise<Bar[]> {
@@ -137,5 +137,40 @@ export class RestaurantService {
 
     horaireRestaurant = horaireRestaurant.concat(barHoraire, icecreamHoraire, cafeHoraire, fastfoodHoraire, pubHoraire);
     return horaireRestaurant;
+  }
+
+  async create(createRestaurantDto: any): Promise<any> {
+    createRestaurantDto.amenity = 'restaurant';
+    return this.restaurantModel.create(createRestaurantDto);
+  }
+
+  async update(id: string, updateRestaurantDto: any): Promise<any> {
+    updateRestaurantDto.amenity = 'restaurant';
+    const existingRestaurant = await this.restaurantModel.findByIdAndUpdate(id, updateRestaurantDto, { new: true });
+    return existingRestaurant;
+  }
+/*
+  async update(id: string, updateRestaurantDto: any): Promise<any> {
+    const existingRestaurant = await this.restaurantModel.findByIdAndUpdate(id, updateRestaurantDto, { new: true });
+
+    if (updateRestaurantDto.amenity && updateRestaurantDto.amenity !== 'restaurant') {
+      try {
+        await this[`${updateRestaurantDto.amenity}Model`].create(existingRestaurant);
+        await this.delete(existingRestaurant._id.toString());
+
+      } catch (ExceptionsHandler) {
+        existingRestaurant.amenity = 'restaurant';
+        await this.restaurantModel.findByIdAndUpdate(id, existingRestaurant, { new: true })
+        return existingRestaurant;
+        
+      }
+    }
+
+    return existingRestaurant;
+  }
+*/
+
+  async delete(id: string): Promise<any> {
+    return this.restaurantModel.findByIdAndDelete(id);
   }
 }
