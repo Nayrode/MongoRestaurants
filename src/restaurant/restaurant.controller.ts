@@ -9,5 +9,4 @@ export class RestaurantController {
   horaireOuverture(): Promise<{ name: string; horaire: string; amenity: string; }[]>  {
     return this.restaurantService.horaireOuverture();
   }
-
 }

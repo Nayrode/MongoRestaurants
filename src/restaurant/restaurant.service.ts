@@ -7,6 +7,7 @@ import { Icecream } from '../schemas/icecream.schema';
 import { Cafe } from '../schemas/cafe.schema';
 import { Fastfood } from '../schemas/fastfood.schema';
 import { Pub } from '../schemas/pub.schema';
+import e from 'express';
 
 @Injectable()
 export class RestaurantService {
@@ -20,6 +21,7 @@ export class RestaurantService {
   ) {}
 
   async horaireOuverture(): Promise<{ name: string; horaire: string; amenity: string; }[]> {
+    
     let horaireRestaurant = await this.restaurantModel.aggregate([
       {
         $match: {
