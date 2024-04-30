@@ -88,3 +88,23 @@ done
 sudo docker exec -it DC1S2Mongos1 mongosh --eval "sh.addShard(\"shard1rs/DC1S3Shard1:27017,DC2S3Shard1:27017,DC3S3Shard1:27017\")"
 sudo docker exec -it DC1S2Mongos1 mongosh --eval "sh.addShard(\"shard2rs/DC1S4Shard2:27017,DC2S4Shard2:27017,DC3S4Shard2:27017\")"
 sudo docker exec -it DC1S2Mongos1 mongosh --eval "sh.addShard(\"shard3rs/DC1S5Shard3:27017,DC2S5Shard3:27017,DC3S5Shard3:27017\")"
+
+echo "=================SHARDING================="
+sudo docker exec -it DC1S2Mongos1 mongosh --eval "use restaurants" \
+  --eval "db.restaurant.createIndex({\"_id\": \"hashed\"})" \
+  --eval "sh.shardCollection(\"restaurants.restaurant\", {\"_id\": \"hashed\"})" 
+sudo docker exec -it DC1S2Mongos1 mongosh --eval "use restaurants" \
+  --eval "db.bar.createIndex({\"_id\": \"hashed\"})" \
+  --eval "sh.shardCollection(\"restaurants.bar\", {\"_id\": \"hashed\"})"
+sudo docker exec -it DC1S2Mongos1 mongosh --eval "use restaurants" \
+  --eval "db.cafe.createIndex({\"_id\": \"hashed\"})" \
+  --eval "sh.shardCollection(\"restaurants.cafe\", {\"_id\": \"hashed\"})" 
+sudo docker exec -it DC1S2Mongos1 mongosh --eval "use restaurants" \
+  --eval "db.fast_food.createIndex({\"_id\": \"hashed\"})" \
+  --eval "sh.shardCollection(\"restaurants.fast_food\", {\"_id\": \"hashed\"})"
+sudo docker exec -it DC1S2Mongos1 mongosh --eval "use restaurants" \
+  --eval "db.ice_cream.createIndex({\"_id\": \"hashed\"})" \
+  --eval "sh.shardCollection(\"restaurants.ice_cream\", {\"_id\": \"hashed\"})"
+sudo docker exec -it DC1S2Mongos1 mongosh --eval "use restaurants" \
+  --eval "db.pub.createIndex({\"_id\": \"hashed\"})" \
+  --eval "sh.shardCollection(\"restaurants.pub\", {\"_id\": \"hashed\"})"
