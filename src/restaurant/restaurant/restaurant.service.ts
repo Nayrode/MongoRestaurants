@@ -19,6 +19,13 @@ export class RestaurantService {
     createRestaurantDto.amenity = 'restaurant';
     return this.restaurantModel.create(createRestaurantDto);
   }
+
+  async update(id: string, updateRestaurantDto: any): Promise<any> {
+    updateRestaurantDto.amenity = 'restaurant';
+    const existingRestaurant = await this.restaurantModel.findByIdAndUpdate(id, updateRestaurantDto, { new: true });
+    return existingRestaurant;
+  }
+  /*
   async update(id: string, updateRestaurantDto: any): Promise<any> {
     const existingRestaurant = await this.restaurantModel.findByIdAndUpdate(id, updateRestaurantDto, { new: true });
 
@@ -37,7 +44,7 @@ export class RestaurantService {
 
     return existingRestaurant;
   }
-
+  */
   async delete(id: string): Promise<any> {
     return this.restaurantModel.findByIdAndDelete(id);
   }

@@ -8,7 +8,7 @@ import { RestaurantService } from '../restaurant.service';
 export class PubService {
   constructor(
     @InjectModel(Pub.name) private pubModel: Model<Pub>,
-    private readonly restaurantService: RestaurantService
+    private restaurantService: RestaurantService
   ) {}
 
   async pub(): Promise<Pub[]> {
@@ -19,24 +19,33 @@ export class PubService {
     createPubDto.amenity = 'pub';
     return this.pubModel.create(createPubDto);
   }
+
   async update(id: string, updatePubDto: any): Promise<any> {
+    updatePubDto.amenity = 'pub';
+    const existingPub = await this.pubModel.findByIdAndUpdate(id, updatePubDto, { new: true });
+    return existingPub;
+  }
+
+  /*  async update(id: string, updatePubDto: any): Promise<any> {
     const existingPub = await this.pubModel.findByIdAndUpdate(id, updatePubDto, { new: true });
 
-    if (updatePubDto.amenity && updatePubDto.amenity !== 'pub') {
-      try {
-        await this[updatePubDto.amenity + 'Service'].create(existingPub);
-        await this.delete(existingPub._id.toString());
-
-      } catch (ExceptionsHandler) {
-        existingPub.amenity = 'pub';
-        await this.pubModel.findByIdAndUpdate(id, existingPub, { new: true })
-        return existingPub;
-        
+    if (updatePubDto.amenity) {
+      switch (updatePubDto.amenity) {
+        case 'restaurant':
+          const pubWithoutId = await this.pubModel.findById(id).select('-_id -__v').exec();
+          await this.restaurantService.create(pubWithoutId);
+          await this.delete(existingPub._id.toString());
+          break;
+        default:
+          existingPub.amenity = 'pub';
+          await this.pubModel.findByIdAndUpdate(id, existingPub, { new: true });
+          break;
       }
     }
 
     return existingPub;
   }
+  */
 
   async delete(id: string): Promise<any> {
     return this.pubModel.findByIdAndDelete(id);

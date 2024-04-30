@@ -10,6 +10,7 @@ import { Fastfood, FastfoodModel } from 'src/schemas/fastfood.schema';
 import { Pub, PubModel } from 'src/schemas/pub.schema';
 import { PubModule } from './pub/pub.module';
 import { PubService } from './pub/pub.service';
+import { IcecreamService } from './icecream/Icecream.service';
 
 @Module({
   imports: [
@@ -20,8 +21,8 @@ import { PubService } from './pub/pub.service';
     MongooseModule.forFeature([{ name: Fastfood.name, schema: FastfoodModel, collection: 'fast_food'}]),
     MongooseModule.forFeature([{ name: Pub.name, schema: PubModel, collection: 'pub'}])
   ],
-  providers: [RestaurantService, PubService],
+  providers: [RestaurantService, PubService, IcecreamService],
   controllers: [RestaurantController],
-  exports: [RestaurantService, PubService]
+  exports: [RestaurantService, PubService, IcecreamService]
 })
 export class RestaurantModule {}
