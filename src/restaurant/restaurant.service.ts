@@ -19,7 +19,7 @@ export class RestaurantService {
     @InjectModel(Pub.name) private pubModel: Model<Pub>,
   ) {}
 
-  async horaireOuverture(): Promise<{ name: string; horaire: string; }[]> {
+  async horaireOuverture(): Promise<{ name: string; horaire: string; amenity: string; }[]> {
     let horaireRestaurant = await this.restaurantModel.aggregate([
       {
         $match: {
@@ -30,7 +30,8 @@ export class RestaurantService {
         $project: {
           _id: 0,
           name: 1, 
-          opening_hours: 1 
+          opening_hours: 1, 
+          amenity: 1
         }
       }
     ]).exec();
@@ -45,7 +46,8 @@ export class RestaurantService {
         $project: {
           _id: 0,
           name: 1, 
-          opening_hours: 1 
+          opening_hours: 1, 
+          amenity: 1
         }
       }
     ]).exec();
@@ -60,7 +62,8 @@ export class RestaurantService {
         $project: {
           _id: 0, 
           name: 1, 
-          opening_hours: 1
+          opening_hours: 1, 
+          amenity: 1
         }
       }
     ]).exec();
@@ -75,7 +78,8 @@ export class RestaurantService {
         $project: {
           _id: 0, 
           name: 1, 
-          opening_hours: 1 
+          opening_hours: 1, 
+          amenity: 1 
         }
       }
     ]).exec();
@@ -90,7 +94,8 @@ export class RestaurantService {
         $project: {
           _id: 0, 
           name: 1, 
-          opening_hours: 1 
+          opening_hours: 1, 
+          amenity: 1
         }
       }
     ]).exec();
@@ -105,7 +110,8 @@ export class RestaurantService {
         $project: {
           _id: 0, 
           name: 1, 
-          opening_hours: 1 
+          opening_hours: 1, 
+          amenity: 1 
         }
       }
     ]).exec();
