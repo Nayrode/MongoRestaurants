@@ -7,6 +7,7 @@ import { Icecream } from '../schemas/icecream.schema';
 import { Cafe } from '../schemas/cafe.schema';
 import { Fastfood } from '../schemas/fastfood.schema';
 import { Pub } from '../schemas/pub.schema';
+import e from 'express';
 
 @Injectable()
 export class RestaurantService {
@@ -139,25 +140,47 @@ export class RestaurantService {
     return horaireRestaurant;
   }
 
-  async opened(time: string) {
+  async opened(time: string) : Promise<{name: string, horaires: {}, open: boolean}[]> {
     const restau = await this.horaireOuverture();
-    const horaires = restau.map((restaurant) => {
-      return {name: restaurant.name, horairesString: restaurant.opening_hours.split(';'), horaires: {}};
+    let horaires = restau.map((restaurant) => {
+      return {name: restaurant.name, horairesTab: restaurant.opening_hours.split(';'), horaires: {Mon: [], Tue: [], Wed: [], Thu: [], Fri: [], Sat: [], Sun: []}, open: false};
     });
     for (let elem of horaires) {
-      for (let horaire of elem.horairesString) {
+      for (let horaire of elem.horairesTab) {
         const horaireSplit = horaire.split(' ');
         if (horaireSplit.length > 1) {
-          const days = this.splitHoraire(horaire[0]);
+          const days = this.splitHoraire(horaire[1]);
           for (let day of days) {
-            elem.horaires[day] = {open: horaireSplit[1], close: horaireSplit[2]};
+            elem.horaires[day].push(new Date(`1970-01-01T${horaireSplit[1]}:00`));
+            elem.horaires[day].push(new Date(`1970-01-01T${horaireSplit[2]}:00`));
           }
         }
+      }
+    }
+    //remove horairesTab from horaires
+    for (let elem of horaires) {
+      delete elem.horairesTab;
+    }
 
+    const actualDay = time.split(' ')[0];
+    const actualTime = new Date(`1970-01-01T${time.split(' ')[1]}:00`);
+
+    //check if the restaurant is open
+    for (let elem of horaires) {
+      if (elem.horaires[actualDay].length === 0) {
+        elem.open = false;
+      } else {
+        for (let i = 0; i < elem.horaires[actualDay].length; i += 2) {
+          if (actualTime >= elem.horaires[actualDay][i] && actualTime <= elem.horaires[actualDay][i + 1]) {
+            elem.open = true;
+            break;
+          }
+          elem.open = false;
+        }
       }
     }
 
-    return horaires;
+    return horaires.filter((elem) => elem.open);
   }
 
   splitHoraire(horaire: string) {

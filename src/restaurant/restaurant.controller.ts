@@ -49,8 +49,8 @@ export class RestaurantController {
   }
 
   @Get('horaire')
-  horaireOuverture(): Promise<{ name: string; horaire: string; }[]>  {
-    return this.RestaurantService.horaireOuverture();
+  horaireOuverture(): Promise<{ name: string; horaires: {}; open: boolean}[]>  {
+    return this.RestaurantService.opened("Tue 18:00");
   }
 
   @Post()
