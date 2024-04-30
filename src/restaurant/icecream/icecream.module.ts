@@ -6,7 +6,7 @@ import { Icecream, IcecreamModel } from 'src/schemas/icecream.schema';
 import { RestaurantModule as RestaurantsModule } from '../restaurant.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Icecream.name, schema: IcecreamModel, collection: 'icecream'}]), IcecreamModule],
+  imports: [MongooseModule.forFeature([{ name: Icecream.name, schema: IcecreamModel, collection: 'icecream'}]), IcecreamModule, Icecream],
   controllers: [IcecreamController],
   providers: [IcecreamService]
 })

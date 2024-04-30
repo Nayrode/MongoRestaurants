@@ -1,10 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
 
 @Schema()
-export class Icecream extends Document {
+export class Icecream {
+  @Prop()
+  addr_street: string;
+
   @Prop()
   amenity: string;
+  
+  @Prop()
+  brand: string; 
 
   @Prop()
   name: string;
@@ -19,16 +24,10 @@ export class Icecream extends Document {
   tags: object;
 
   @Prop()
-  addr_housenumber: number;
-
-  @Prop()
-  addr_street: string;
-
-  @Prop()
   wheelchair: string;
 
   @Prop()
-  brand: string; 
+  addr_housenumber: number;
 
   @Prop()
   cuisine: string;

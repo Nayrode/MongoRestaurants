@@ -2,13 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Icecream } from 'src/schemas/icecream.schema';
-import { PubService } from '../pub/pub.service';
 
 @Injectable()
 export class IcecreamService {
   constructor(
-    @InjectModel(Icecream.name) private icecreamModel: Model<Icecream>,
-    private readonly icecreamService: IcecreamService
+    @InjectModel(Icecream.name) private icecreamModel: Model<Icecream>
   ) {}
 
   async icecream(): Promise<Icecream[]> {
