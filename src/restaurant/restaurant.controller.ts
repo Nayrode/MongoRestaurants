@@ -48,10 +48,10 @@ export class RestaurantController {
     return this.RestaurantService.bar();
   }
 
-  @Get('horaire')
+  /*@Get('horaire')
   horaireOuverture(): Promise<{ name: string; horaires: {}; open: boolean}[]>  {
     return this.RestaurantService.opened("Tue 18:00");
-  }
+  }*/
 
   @Post()
   async create(@Body() createRestaurantDto: CreateRestaurantDto): Promise<any> {
