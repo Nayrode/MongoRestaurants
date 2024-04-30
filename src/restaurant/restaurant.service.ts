@@ -140,7 +140,7 @@ export class RestaurantService {
     return horaireRestaurant;
   }
 
-  async opened(time: string) : Promise<{name: string, horaires: {}, open: boolean}[]> {
+  /*async opened(time: string) : Promise<{name: string, horaires: {}, open: boolean}[]> {
     const restau = await this.horaireOuverture();
     let horaires = restau.map((restaurant) => {
       return {name: restaurant.name, horairesTab: restaurant.opening_hours.split(';'), horaires: {Mon: [], Tue: [], Wed: [], Thu: [], Fri: [], Sat: [], Sun: []}, open: false};
@@ -183,31 +183,25 @@ export class RestaurantService {
     return horaires.filter((elem) => elem.open);
   }
 
-  splitHoraire(horaire: string) {
+  splitHoraire(horaire: string) : {Mon: Date[], Tue: Date[], Wed: Date[], Thu: Date[], Fri: Date[], Sat: Date[], Sun: Date[]} {
     //Mon-Sun to Mon, Tue, Wed, Thu, Fri, Sat, Sun
-    if (horaire.includes(',')) {
-      return horaire.split(',');
-    }
-    const horaires = horaire.split('-');
-    if (horaires.length === 1) {
-      return horaires[0];
-    }
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    let horairesObj = [];
-    let take = false
-    for (const elem of days) {
-      if (elem === horaires[0]) {
-        take = true;
+    if (horaire.includes(';')) {
+      const list = horaire.split('; ');
+      let horaires = {Mon: [], Tue: [], Wed: [], Thu: [], Fri: [], Sat: [], Sun: []};
+      for (let elem of list) {
+        const horairesObj = this.splitHoraire(elem);
+        for (let day in horairesObj) {
+          horaires[day] = horaires[day].concat(horairesObj[day]);
+        }
       }
-      if (take) {
-        horairesObj.push(elem);
-      }
-      if (elem === horaires[1]) {
-        take = false;
-      }
+      return horaires;
     }
-    return horairesObj;
-  }
+    const days = horaire.match(/+[a-zA-Z-,]g)
+    if (days.length === 1) {
+      let horaire = {Mon: [], Tue: [], Wed: [], Thu: [], Fri: [], Sat: [], Sun: []};
+      
+    }
+  }*/
 
   async create(createRestaurantDto: any): Promise<any> {
     createRestaurantDto.amenity = 'restaurant';
