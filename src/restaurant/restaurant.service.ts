@@ -44,7 +44,7 @@ export class RestaurantService {
     return this.icecreamModel.find().select('amenity name addr_street').exec();
   }
 
-  async horaireOuverture(): Promise<{ name: string; horaire: string; }[]> {
+  async horaireOuverture(): Promise<{ name: string; opening_hours: string; }[]> {
     let horaireRestaurant = await this.restaurantModel.aggregate([
       {
         $match: {
@@ -137,6 +137,53 @@ export class RestaurantService {
 
     horaireRestaurant = horaireRestaurant.concat(barHoraire, icecreamHoraire, cafeHoraire, fastfoodHoraire, pubHoraire);
     return horaireRestaurant;
+  }
+
+  async opened(time: string) {
+    const restau = await this.horaireOuverture();
+    const horaires = restau.map((restaurant) => {
+      return {name: restaurant.name, horairesString: restaurant.opening_hours.split(';'), horaires: {}};
+    });
+    for (let elem of horaires) {
+      for (let horaire of elem.horairesString) {
+        const horaireSplit = horaire.split(' ');
+        if (horaireSplit.length > 1) {
+          const days = this.splitHoraire(horaire[0]);
+          for (let day of days) {
+            elem.horaires[day] = {open: horaireSplit[1], close: horaireSplit[2]};
+          }
+        }
+
+      }
+    }
+
+    return horaires;
+  }
+
+  splitHoraire(horaire: string) {
+    //Mon-Sun to Mon, Tue, Wed, Thu, Fri, Sat, Sun
+    if (horaire.includes(',')) {
+      return horaire.split(',');
+    }
+    const horaires = horaire.split('-');
+    if (horaires.length === 1) {
+      return horaires[0];
+    }
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    let horairesObj = [];
+    let take = false
+    for (const elem of days) {
+      if (elem === horaires[0]) {
+        take = true;
+      }
+      if (take) {
+        horairesObj.push(elem);
+      }
+      if (elem === horaires[1]) {
+        take = false;
+      }
+    }
+    return horairesObj;
   }
 
   async create(createRestaurantDto: any): Promise<any> {
