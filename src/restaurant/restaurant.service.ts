@@ -20,32 +20,8 @@ export class RestaurantService {
     @InjectModel(Pub.name) private pubModel: Model<Pub>,
   ) {}
 
-  async bar(): Promise<Bar[]> {
-    return await this.barModel.find().select('amenity name addr_street').exec();
-  }
-
-  async restaurant(): Promise<Restaurant[]> {
-    return await this.restaurantModel.find().select('amenity name addr_street').exec();
-  }
-
-  async pub(): Promise<Pub[]> {
-    return this.pubModel.find().select('amenity name addr_street').exec();
-  }
-
-
-  async fastfood(): Promise<Fastfood[]> {
-    return this.fastfoodModel.find().select('amenity name addr_street').exec();
-  }
-
-  async cafe(): Promise<Cafe[]> {
-    return this.cafeModel.find().select('amenity name addr_street').exec();
-  }
-
-  async icecream(): Promise<Icecream[]> {
-    return this.icecreamModel.find().select('amenity name addr_street').exec();
-  }
-
-  async horaireOuverture(): Promise<{ name: string; opening_hours: string; }[]> {
+  async horaireOuverture(): Promise<{ name: string; horaire: string; amenity: string; }[]> {
+    
     let horaireRestaurant = await this.restaurantModel.aggregate([
       {
         $match: {
@@ -56,7 +32,8 @@ export class RestaurantService {
         $project: {
           _id: 0,
           name: 1, 
-          opening_hours: 1 
+          opening_hours: 1, 
+          amenity: 1
         }
       }
     ]).exec();
@@ -71,7 +48,8 @@ export class RestaurantService {
         $project: {
           _id: 0,
           name: 1, 
-          opening_hours: 1 
+          opening_hours: 1, 
+          amenity: 1
         }
       }
     ]).exec();
@@ -86,7 +64,8 @@ export class RestaurantService {
         $project: {
           _id: 0, 
           name: 1, 
-          opening_hours: 1
+          opening_hours: 1, 
+          amenity: 1
         }
       }
     ]).exec();
@@ -101,7 +80,8 @@ export class RestaurantService {
         $project: {
           _id: 0, 
           name: 1, 
-          opening_hours: 1 
+          opening_hours: 1, 
+          amenity: 1 
         }
       }
     ]).exec();
@@ -116,7 +96,8 @@ export class RestaurantService {
         $project: {
           _id: 0, 
           name: 1, 
-          opening_hours: 1 
+          opening_hours: 1, 
+          amenity: 1
         }
       }
     ]).exec();
@@ -131,7 +112,8 @@ export class RestaurantService {
         $project: {
           _id: 0, 
           name: 1, 
-          opening_hours: 1 
+          opening_hours: 1, 
+          amenity: 1 
         }
       }
     ]).exec();
@@ -139,102 +121,5 @@ export class RestaurantService {
     horaireRestaurant = horaireRestaurant.concat(barHoraire, icecreamHoraire, cafeHoraire, fastfoodHoraire, pubHoraire);
     return horaireRestaurant;
   }
-
-  /*async opened(time: string) : Promise<{name: string, horaires: {}, open: boolean}[]> {
-    const restau = await this.horaireOuverture();
-    let horaires = restau.map((restaurant) => {
-      return {name: restaurant.name, horairesTab: restaurant.opening_hours.split(';'), horaires: {Mon: [], Tue: [], Wed: [], Thu: [], Fri: [], Sat: [], Sun: []}, open: false};
-    });
-    for (let elem of horaires) {
-      for (let horaire of elem.horairesTab) {
-        const horaireSplit = horaire.split(' ');
-        if (horaireSplit.length > 1) {
-          const days = this.splitHoraire(horaire[1]);
-          for (let day of days) {
-            elem.horaires[day].push(new Date(`1970-01-01T${horaireSplit[1]}:00`));
-            elem.horaires[day].push(new Date(`1970-01-01T${horaireSplit[2]}:00`));
-          }
-        }
-      }
-    }
-    //remove horairesTab from horaires
-    for (let elem of horaires) {
-      delete elem.horairesTab;
-    }
-
-    const actualDay = time.split(' ')[0];
-    const actualTime = new Date(`1970-01-01T${time.split(' ')[1]}:00`);
-
-    //check if the restaurant is open
-    for (let elem of horaires) {
-      if (elem.horaires[actualDay].length === 0) {
-        elem.open = false;
-      } else {
-        for (let i = 0; i < elem.horaires[actualDay].length; i += 2) {
-          if (actualTime >= elem.horaires[actualDay][i] && actualTime <= elem.horaires[actualDay][i + 1]) {
-            elem.open = true;
-            break;
-          }
-          elem.open = false;
-        }
-      }
-    }
-
-    return horaires.filter((elem) => elem.open);
-  }
-
-  splitHoraire(horaire: string) : {Mon: Date[], Tue: Date[], Wed: Date[], Thu: Date[], Fri: Date[], Sat: Date[], Sun: Date[]} {
-    //Mon-Sun to Mon, Tue, Wed, Thu, Fri, Sat, Sun
-    if (horaire.includes(';')) {
-      const list = horaire.split('; ');
-      let horaires = {Mon: [], Tue: [], Wed: [], Thu: [], Fri: [], Sat: [], Sun: []};
-      for (let elem of list) {
-        const horairesObj = this.splitHoraire(elem);
-        for (let day in horairesObj) {
-          horaires[day] = horaires[day].concat(horairesObj[day]);
-        }
-      }
-      return horaires;
-    }
-    const days = horaire.match(/+[a-zA-Z-,]g)
-    if (days.length === 1) {
-      let horaire = {Mon: [], Tue: [], Wed: [], Thu: [], Fri: [], Sat: [], Sun: []};
-      
-    }
-  }*/
-
-  async create(createRestaurantDto: any): Promise<any> {
-    createRestaurantDto.amenity = 'restaurant';
-    return this.restaurantModel.create(createRestaurantDto);
-  }
-
-  async update(id: string, updateRestaurantDto: any): Promise<any> {
-    updateRestaurantDto.amenity = 'restaurant';
-    const existingRestaurant = await this.restaurantModel.findByIdAndUpdate(id, updateRestaurantDto, { new: true });
-    return existingRestaurant;
-  }
-/*
-  async update(id: string, updateRestaurantDto: any): Promise<any> {
-    const existingRestaurant = await this.restaurantModel.findByIdAndUpdate(id, updateRestaurantDto, { new: true });
-
-    if (updateRestaurantDto.amenity && updateRestaurantDto.amenity !== 'restaurant') {
-      try {
-        await this[`${updateRestaurantDto.amenity}Model`].create(existingRestaurant);
-        await this.delete(existingRestaurant._id.toString());
-
-      } catch (ExceptionsHandler) {
-        existingRestaurant.amenity = 'restaurant';
-        await this.restaurantModel.findByIdAndUpdate(id, existingRestaurant, { new: true })
-        return existingRestaurant;
-        
-      }
-    }
-
-    return existingRestaurant;
-  }
-*/
-
-  async delete(id: string): Promise<any> {
-    return this.restaurantModel.findByIdAndDelete(id);
-  }
+  
 }

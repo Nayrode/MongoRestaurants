@@ -4,9 +4,6 @@ import { Document } from 'mongoose';
 @Schema()
 export class Cafe extends Document {
   @Prop()
-  _id: string;
-
-  @Prop()
   addr_housenumber: number;
 
   @Prop()
