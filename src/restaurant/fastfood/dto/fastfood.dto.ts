@@ -1,29 +1,32 @@
 export class CreateFastfoodDto {
-    addr_housenumber: number;
-    addr_street: string;
-    amenity: string = 'fastfood';
+
+    amenity: string = 'fast_food';
+    cuisine: string;
     name: string;
     osm_id: string;
     osm_timestamp: string;
     tags: object;
     wheelchair: string;
-    internet_access: string;
+    addr_street: string;
+    brand: string; 
     opening_hours: string;
-    brand: string;
+    addr_housenumber: number;
+    drive_through: string;
   
 }
 
 export class UpdateFastfoodDto {
-    addr_housenumber?: number;
-    addr_street?: string;
     amenity?: string;
+    cuisine?: string;
     name?: string;
     osm_id?: string;
     osm_timestamp?: string;
     tags?: object;
     wheelchair?: string;
-    internet_access?: string;
+    addr_street?: string;
+    brand?: string; 
     opening_hours?: string;
-    brand?: string;
+    addr_housenumber?: number;
+    drive_through?: string;
 
 }

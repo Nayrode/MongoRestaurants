@@ -1,4 +1,5 @@
 export class CreateBarDto {
+    
     addr_housenumber: number;
     addr_street: string;
     amenity: string = 'bar';
@@ -9,7 +10,6 @@ export class CreateBarDto {
     wheelchair: string;
     internet_access: string;
     opening_hours: string;
-    brand: string;
   
 }
 
@@ -24,6 +24,5 @@ export class UpdateBarDto {
     wheelchair?: string;
     internet_access?: string;
     opening_hours?: string;
-    brand?: string;
 
 }
